@@ -1,0 +1,109 @@
+<!--4.1 Trabajando con Formularios en Angular :: recordar que lo que va solo en corchetes es una propiedad ya predeterminada
+de la etiqueta (en este caso, la etiqueta es form y la propiedad renombrada en este componente es formG).-->
+<form [formGroup]="formG" class="example-container" (submit)="operate()">
+    <!--4.3.1 Trabajando con Formularios en Angular :: para que se vincule cada input con su respectivo campo del formulario 
+    formG en el archivo ts de este componente, el valor del atributo formControlName y el nombre del campo del formulario
+    formG en el archivo ts deben ser el mismo. 
+    mat-form-field tiene la parte del nombre "mat" de la libreria de interfaz grafica: Material Angular. -->
+    <div [hidden]="true">
+        <mat-form-field>
+            <input matInput placeholder="ID" required formControlName="idPatient">
+        </mat-form-field>
+    </div>
+
+    <mat-form-field>
+        <input matInput placeholder="FirstName" required formControlName="firstName">
+<!--5.2.1 Validación de formularios :: Aqui se esta notificando un error en caso no se haya pasado alguna validacion. Si se quiere 
+usar NgIf en esta seccion html de este componente, se tiene que importar la clase NgIf en el archivo ts de este componente.
+El f es un accesor que devuelve un  objeto que ha sido definido por nosotros en el archivo ts de este componente con el fin de 
+abreviar codigo.
+El signo de ? despues de errors significa que si este devuelve null, la excepcion generada de tipo null_exception es gestionada
+por un catch de un respectivo try internamente.
+Esta es la forma antigua de hacerlo con if hasta antes de angular 17.
+-->
+        <small *ngIf="f['firstName'].errors?.['required'] && f['firstName'].touched"   class="invalid">Is required</small>
+        <small *ngIf="f['firstName'].errors?.['minlength'] && f['firstName'].touched"   class="invalid">Minlegth is 3</small>
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="LastName" required formControlName="lastName">
+<!--5.2.2 Validación de formularios :: Esta es la forma actual, a partir de angular 17 de hacerlo con un if. No se tiene que
+importar nada en el archivo ts.-->
+        @if (f['lastName'].errors?.['required'] && f['lastName'].touched)
+        {
+            <small class="invalid">Is required</small>
+        }
+
+        @if (f['lastName'].errors?.['minlength'] && f['lastName'].touched)
+        {
+            <small class="invalid">Minlegth is 3</small>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="DNI" required formControlName="dni">
+        @if (f['dni'].errors?.['required'] && f['dni'].touched)
+        {
+            <small class="invalid">Is required</small>
+        }
+
+        @if (f['dni'].errors?.['minlength'] && f['dni'].touched)
+        {
+            <small class="invalid">Minlegth is 8</small>
+        }
+        @if (f['dni'].errors?.['maxlength'] && f['dni'].touched)
+        {
+            <small class="invalid">Manlegth is 8</small>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Address" required formControlName="address">
+        @if (f['address'].errors?.['required'] && f['address'].touched)
+        {
+            <small class="invalid">Is required</small>
+        }
+
+        @if (f['address'].errors?.['minlength'] && f['address'].touched)
+        {
+            <small class="invalid">Minlegth is 150</small>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Phone" required formControlName="phone">
+        @if (f['phone'].errors?.['required'] && f['phone'].touched)
+        {
+            <small class="invalid">Is required</small>
+        }
+
+        @if (f['phone'].errors?.['minlength'] && f['phone'].touched)
+        {
+            <small class="invalid">Minlegth is 9</small>
+        }
+    </mat-form-field>
+
+    <mat-form-field>
+        <input matInput placeholder="Email" required formControlName="email">
+        @if (f['email'].errors?.['required'] && f['email'].touched)
+        {
+            <small class="invalid">Is required</small>
+        }
+    </mat-form-field>
+    
+    <!--4.3.2 Trabajando con Formularios en Angular :: Si el boton es de tipo submit, entonces cuando se active, se genere el
+    evento submit. Por defecto, sino se especifica el tipo de evento, todo boton es de tipo submit.-->
+    <button mat-raised-button color="primary" type="submit">
+        <mat-icon>done</mat-icon>
+        <span>Done</span>
+    </button>
+    <!--4.3.3 Trabajando con Formularios en Angular :: Si el boton es de tipo buttton, entonces cuando se active, no genera un
+    evento submit.-->
+    <!--4.7 Trabajando con Formularios en Angular :: Aqui el boton cancel redirecciona al componente padre patient (tener en
+    cuenta que en este caso no se esta incrustrando nada.)
+    -->
+    <button mat-raised-button color="accent" type="button" routerLink="/pages/patient">
+        <mat-icon>cancel</mat-icon>
+        <span>Cancel</span>
+    </button>
+</form>
